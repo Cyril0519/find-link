@@ -14,7 +14,7 @@ public class BaseUser implements Serializable {
     /**
      * 用户id
      */
-    private String uid;
+    private Long uid;
 
     /**
      * 用户名
@@ -26,27 +26,20 @@ public class BaseUser implements Serializable {
      */
     private String password;
 
-    /**
-     * 用户性别 0：没写，1：男，2：女
-     */
-
-    private String gender;
 
     /**
      * 用户电话号码
      */
     private String phone;
 
-    /**
-     * 用户居住地址
-     */
-    private String address;
+    private int age;
 
-    /**
-     * 用户邮箱
-     */
-    private String email;
+    private int sex;
+
+    private String profile;
+
     private String authority;
+
     private int isEnabled;
     private int isAccountExpire;
     private int isAccountLocked;

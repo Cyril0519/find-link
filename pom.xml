@@ -11,7 +11,6 @@
     <modules>
         <module>find-link-auth</module>
         <module>find-link-user</module>
-        <module>find-link-user</module>
         <module>find-link-common</module>
         <module>find-link-remote</module>
     </modules>
@@ -20,6 +19,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spring-boot.version>2.3.12.RELEASE</spring-boot.version>
+        <hutool.version>5.8.12</hutool.version>
     </properties>
 
     <parent>
@@ -86,7 +86,7 @@
         </plugins>
     </build>
 
-    <repositories>
+    <!--<repositories>
         <repository>
             <id>aliyun</id>
             <name>aliyun</name>
@@ -101,7 +101,7 @@
                 <updatePolicy>never</updatePolicy>
             </snapshots>
         </repository>
-    </repositories>
+    </repositories>-->
     <pluginRepositories>
         <pluginRepository>
             <id>aliyun</id>

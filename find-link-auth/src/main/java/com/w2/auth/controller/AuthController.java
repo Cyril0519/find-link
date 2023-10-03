@@ -5,18 +5,13 @@ import bean.Constant;
 import bean.Result;
 import com.google.code.kaptcha.Producer;
 import com.w2.auth.service.AuthService;
-import com.w2.auth.service.UserService;
 import com.w2.auth.util.AuthToken;
 import com.w2.auth.util.CookieUtil;
-import com.w2.user.service.RemoteUserService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,8 +23,9 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-@Controller
+@RestController
 @RequestMapping("/oauth")
+@Slf4j
 public class AuthController {
     @Autowired
     private AuthService authService;
@@ -37,7 +33,7 @@ public class AuthController {
     private Producer kaptchaProducer;
     @Autowired
     private StringRedisTemplate redisTemplate;
-;
+    ;
 
     @Value("${auth.clientId}")
     private String clientId;
@@ -48,14 +44,8 @@ public class AuthController {
     @Value("${auth.cookieMaxAge}")
     private Integer cookieMaxAge;
 
-    @RequestMapping("/toLogin")
-    public String toLogin(@RequestParam(value = "from", required = false, defaultValue = "") String from, Model model) {
-        model.addAttribute("from", from);
-        return "login";
-    }
 
-    @RequestMapping("/login")
-    @ResponseBody
+    @PostMapping("/login")
     public Result login(@RequestBody Map<String, String> params, HttpServletResponse response) {
         // 校验参数
         String username = params.get("username");
@@ -77,10 +67,10 @@ public class AuthController {
         }
         // 校验验证码
         String kaptchaFromSystem = redisTemplate.boundValueOps("kaptcha." + uuid).get();
-        if (kaptchaFromSystem==null){
+        if (kaptchaFromSystem == null) {
             return new Result<Void>(Constant.FAIL, "验证码错误或者已过期");
         }
-        if(!kaptchaFromSystem.equalsIgnoreCase(kaptchaFromUser)){
+        if (!kaptchaFromSystem.equalsIgnoreCase(kaptchaFromUser)) {
             return new Result<Void>(Constant.FAIL, "验证码错误或者已过期");
         }
 
@@ -89,9 +79,7 @@ public class AuthController {
         this.saveJtiToCookie(authToken.getJti(), response);
         // 返回结果
         return new Result<>(Constant.SUCCESS, "登录成功", authToken.getJti());
-
     }
-
 
 
     // 将令牌的短标识jti存入cookie
@@ -101,21 +89,20 @@ public class AuthController {
 
     //生成验证码图片
     @GetMapping("/kaptcha")
-    public void getKaptcha(@RequestParam("uuid") String uuid,HttpServletResponse response){
-        System.out.println(uuid);
+    public void getKaptcha(@RequestParam("uuid") String uuid, HttpServletResponse response) {
         //    生成验证码
-        String text= kaptchaProducer.createText();
+        String text = kaptchaProducer.createText();
         //    生成验证码图片
         BufferedImage image = kaptchaProducer.createImage(text);
         //     保存redis中
-        redisTemplate.opsForValue().set("kaptcha."+uuid,text,2*60, TimeUnit.SECONDS); // 2分钟过期时间
+        redisTemplate.opsForValue().set("kaptcha." + uuid, text, 2 * 60, TimeUnit.SECONDS); // 2分钟过期时间
 
         response.setContentType("image/png");
         try {
             ServletOutputStream outputStream = response.getOutputStream();
             ImageIO.write(image, "png", outputStream);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             System.out.println("响应验证码失败");
         }
     }
@@ -125,5 +112,10 @@ public class AuthController {
     private boolean isCorrectCaptcha(String uuid, String codeFromUser) {
         String codeFromSystem = redisTemplate.boundValueOps("kaptcha." + uuid).get();
         return codeFromSystem != null && codeFromSystem.equalsIgnoreCase(codeFromUser);
+    }
+
+    @GetMapping("test")
+    public String test() {
+        return "hello world";
     }
 }

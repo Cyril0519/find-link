@@ -3,6 +3,7 @@ package com.w2.auth.service.impl;
 
 import com.w2.auth.service.AuthService;
 import com.w2.auth.util.AuthToken;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
@@ -26,6 +27,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@Slf4j
 public class AuthServiceImpl implements AuthService {
     @Autowired
     private RestTemplate restTemplate;
@@ -40,7 +42,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthToken login(String username, String password, String clientId, String ClientSecret) {
         // 1.申请令牌
-        ServiceInstance serviceInstance = loadBalancerClient.choose("user-auth");
+        ServiceInstance serviceInstance = loadBalancerClient.choose("auth");
         URI uri = serviceInstance.getUri();
         String url = uri + "/oauth/token";
 
@@ -59,6 +61,7 @@ public class AuthServiceImpl implements AuthService {
             @Override
             public void handleError(ClientHttpResponse response) throws IOException {
                 if (response.getRawStatusCode() != 400 && response.getRawStatusCode() != 401) {
+                    log.info("未认证");
                     super.handleError(response);
                 }
 

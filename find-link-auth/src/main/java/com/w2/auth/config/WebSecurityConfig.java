@@ -25,17 +25,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(
                 "/oauth/login",
-                "/oauth/toLogin",
                 "/oauth/kaptcha",
-                "/oauth/toRegister",
-                "/oauth/register",
-                "/login.html",
-                "/oauth/register.html",
-                "/css/**",
-                "/data/**",
-                "/fonts/**",
-                "/img/**",
-                "/js/**",
                 "/oauth/logout");
     }
 
@@ -61,15 +51,9 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .httpBasic()        //启用Http基本身份验证
                 .and()
-                .formLogin()       //启用表单身份验证
-                .and()
                 .authorizeRequests()    //限制基于Request请求访问
                 .anyRequest()
                 .authenticated();       //其他请求都需要经过验证
-
-//        // 开启表单登录
-        http.formLogin().loginPage("/oauth/toLogin")   // 设置访问登录页面的路径
-                .loginProcessingUrl("/oauth/login");   // 设置执行登录操作的路径
 
     }
 

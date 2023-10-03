@@ -1,8 +1,8 @@
 package com.w2.auth.config;
 
 
-import com.w2.auth.service.UserService;
 import com.w2.auth.util.UserJwt;
+import com.w2.user.service.RemoteUserService;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -17,6 +17,8 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.rmi.Remote;
+
 /*****
  * 自定义授权认证类
  */
@@ -27,7 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     ClientDetailsService clientDetailsService;
 
     @DubboReference
-    private UserService userService;
+    private RemoteUserService userService;
 
     /****
      * 自定义授权认证
@@ -64,7 +66,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         //创建User对象
         String permissions = userInfo.getAuthority();
         UserJwt userDetails = new UserJwt(
-                userInfo.getUid(),
+                userInfo.getUid()+"",
                 username,
                 userInfo.getPassword(),
                 userInfo.getIsEnabled() == 0,

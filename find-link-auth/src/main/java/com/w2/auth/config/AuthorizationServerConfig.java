@@ -14,6 +14,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
+import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
+import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
@@ -28,18 +30,17 @@ import java.security.KeyPair;
 @Configuration
 @EnableAuthorizationServer
 class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
-    //数据源，用于从数据库获取数据进行认证操作，测试可以从内存中获取
     @Autowired
     private DataSource dataSource;
-    //jwt令牌转换器
     @Autowired
     private JwtAccessTokenConverter jwtAccessTokenConverter;
-    //SpringSecurity 用户自定义授权认证类
     @Autowired
     UserDetailsService userDetailsService;
-    //授权认证管理器
     @Autowired
     AuthenticationManager authenticationManager;
+    @Autowired
+    AuthorizationCodeServices authorizationCodeServices;
+
     //令牌持久化存储接口
     @Autowired
     TokenStore tokenStore;
@@ -65,9 +66,11 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.accessTokenConverter(jwtAccessTokenConverter)
-                .authenticationManager(authenticationManager)//认证管理器
+                .authenticationManager(authenticationManager)//密码模式服务
+                .authorizationCodeServices(authorizationCodeServices) // 授权码模式服务
                 .tokenStore(tokenStore)                       //令牌存储
                 .userDetailsService(userDetailsService);     //用户信息service
+
     }
 
     /***
@@ -96,7 +99,8 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
     //客户端配置
     @Bean
     public ClientDetailsService clientDetails() {
-        return new JdbcClientDetailsService(dataSource);
+        JdbcClientDetailsService service = new JdbcClientDetailsService(dataSource);
+        return service;
     }
 
     @Bean
@@ -114,16 +118,25 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
     public JwtAccessTokenConverter jwtAccessTokenConverter(CustomUserAuthenticationConverter customUserAuthenticationConverter) {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         KeyPair keyPair = new KeyStoreKeyFactory(
-                keyProperties.getKeyStore().getLocation(),                          //证书路径 petsAdoption.jks
-                keyProperties.getKeyStore().getSecret().toCharArray())              //证书秘钥 petsAdoption
+                keyProperties.getKeyStore().getLocation(),                          //证书路径 findLink.jks
+                keyProperties.getKeyStore().getSecret().toCharArray())              //证书秘钥 findLink
                 .getKeyPair(
-                        keyProperties.getKeyStore().getAlias(),                     //证书别名 petsAdoption
-                        keyProperties.getKeyStore().getPassword().toCharArray());   //证书密码 petsAdoption
+                        keyProperties.getKeyStore().getAlias(),                     //证书别名 findLink
+                        keyProperties.getKeyStore().getPassword().toCharArray());   //证书密码 findLink
         converter.setKeyPair(keyPair);
         //配置自定义的CustomUserAuthenticationConverter
         DefaultAccessTokenConverter accessTokenConverter = (DefaultAccessTokenConverter) converter.getAccessTokenConverter();
         accessTokenConverter.setUserTokenConverter(customUserAuthenticationConverter);
         return converter;
     }
+
+    @Bean
+    public AuthorizationCodeServices authorizationCodeServices() {
+        return new JdbcAuthorizationCodeServices(dataSource);
+    }
+
+
+
+
 }
 
