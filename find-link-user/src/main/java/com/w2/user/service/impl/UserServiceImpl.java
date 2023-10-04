@@ -16,7 +16,7 @@ import java.util.List;
 
 @Service
 @DubboService
-public class UserServiceImpl implements RemoteUserService {
+public class UserServiceImpl implements RemoteUserService,UserService {
     @Autowired
     private UserMapper userMapper;
 
