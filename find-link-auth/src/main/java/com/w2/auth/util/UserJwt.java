@@ -22,23 +22,8 @@ public class UserJwt extends User {
     accountNonLocked – set to true if the account is not locked
     authorities – the authorities that should be granted to the caller if they presented the correct username and password and the user is enabled. Not null.
     */
-    private String id;    //用户ID
-    private String name;  //用户名字
-    private boolean accountExpired;
-    private boolean accountLocked;
-    private boolean credentialsExpired;
-    private boolean disabled;
-    private List<GrantedAuthority> authorities;
+    private String uid;    //用户ID
 
-
-    public UserJwt(String username, String password, Collection<? extends GrantedAuthority> authorities) {
-        super(username, password, authorities);
-    }
-
-    public UserJwt(String username, String id, String password, Collection<? extends GrantedAuthority> authorities) {
-        super(username, password, authorities);
-        this.id = id;
-    }
 
     public UserJwt(String id,
                    String username,
@@ -49,11 +34,6 @@ public class UserJwt extends User {
                    Collection<? extends GrantedAuthority> authorities
                    ) {
         super(username,password,enabled,accountNonExpired,true,accountNonLocked,authorities);
-        this.id = id;
-    }
-
-    @Override
-    public List<GrantedAuthority> getAuthorities() {
-        return authorities;
+        this.uid = id;
     }
 }

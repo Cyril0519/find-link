@@ -44,8 +44,8 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
     //令牌持久化存储接口
     @Autowired
     TokenStore tokenStore;
-    @Autowired
-    private CustomUserAuthenticationConverter customUserAuthenticationConverter;
+/*    @Autowired
+    private CustomUserAuthenticationConverter customUserAuthenticationConverter;*/
 
     /***
      * 客户端信息配置

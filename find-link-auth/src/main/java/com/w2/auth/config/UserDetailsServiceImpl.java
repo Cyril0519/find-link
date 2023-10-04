@@ -2,6 +2,7 @@ package com.w2.auth.config;
 
 
 import com.w2.auth.util.UserJwt;
+import com.w2.result.bean.Constant;
 import com.w2.user.service.RemoteUserService;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,12 +67,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         //创建User对象
         String permissions = userInfo.getAuthority();
         UserJwt userDetails = new UserJwt(
-                userInfo.getUid()+"",
+                userInfo.getUid() + "",
                 username,
                 userInfo.getPassword(),
-                userInfo.getIsEnabled() == 0,
-                userInfo.getIsAccountExpire() == 0,
-                userInfo.getIsAccountLocked()==0,
+                userInfo.getIsEnabled() == Constant.NO,
+                userInfo.getIsAccountExpire() == Constant.NO,
+                userInfo.getIsAccountLocked() == Constant.NO,
                 AuthorityUtils.commaSeparatedStringToAuthorityList(permissions)
         );
         return userDetails;

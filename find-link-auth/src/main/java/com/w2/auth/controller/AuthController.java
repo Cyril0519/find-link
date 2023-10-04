@@ -1,8 +1,8 @@
 package com.w2.auth.controller;
 
 
-import bean.Constant;
-import bean.Result;
+import com.w2.result.bean.Constant;
+import com.w2.result.bean.Result;
 import com.google.code.kaptcha.Producer;
 import com.w2.auth.service.AuthService;
 import com.w2.auth.util.AuthToken;

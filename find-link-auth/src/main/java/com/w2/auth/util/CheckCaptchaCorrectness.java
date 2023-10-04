@@ -1,7 +1,7 @@
 package com.w2.auth.util;
 
-import bean.Constant;
-import bean.Result;
+import com.w2.result.bean.Constant;
+import com.w2.result.bean.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
