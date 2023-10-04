@@ -1,4 +1,4 @@
-package bean;
+package com.w2.result.bean;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
