@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.w2.post.mapper.PostMapper">
+
+    <resultMap id="BaseResultMap" type="com.w2.post.pojo.Post">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="uid" column="uid" jdbcType="BIGINT"/>
+            <result property="username" column="username" jdbcType="VARCHAR"/>
+            <result property="userProfile" column="user_profile" jdbcType="VARCHAR"/>
+            <result property="title" column="title" jdbcType="VARCHAR"/>
+            <result property="postPosition" column="post_position" jdbcType="VARCHAR"/>
+            <result property="imgUrls" column="img_urls" jdbcType="VARCHAR"/>
+            <result property="type" column="type" jdbcType="VARCHAR"/>
+            <result property="isAudit" column="is_audit" jdbcType="TINYINT"/>
+            <result property="isDelete" column="is_delete" jdbcType="TINYINT"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+            <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+            <result property="longitude" column="longitude" jdbcType="DECIMAL"/>
+            <result property="latitude" column="latitude" jdbcType="DECIMAL"/>
+            <result property="abstractsContent" column="abstracts_content" jdbcType="VARCHAR"/>
+            <result property="likes" column="likes" jdbcType="INTEGER"/>
+            <result property="comments" column="comments" jdbcType="INTEGER"/>
+            <result property="collections" column="collections" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,uid,username,
+        user_profile,title,post_position,
+        img_urls,type,is_audit,
+        is_delete,create_time,update_time,
+        create_by,update_by,longitude,
+        latitude,abstracts_content,likes,
+        comments,collections
+    </sql>
+</mapper>
