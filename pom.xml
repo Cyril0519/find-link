@@ -13,6 +13,7 @@
         <module>find-link-user</module>
         <module>find-link-common</module>
         <module>find-link-remote</module>
+        <module>find-link-gateway</module>
     </modules>
     <properties>
         <java.version>1.8</java.version>
