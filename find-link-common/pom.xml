@@ -15,6 +15,9 @@
         <module>common-mysql</module>
         <module>common-result</module>
         <module>common-redis</module>
+        <module>common-utils</module>
+        <module>common-beans</module>
+        <module>common-enhance</module>
     </modules>
 
     <properties>
