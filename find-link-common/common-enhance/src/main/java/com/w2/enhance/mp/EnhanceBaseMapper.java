@@ -25,7 +25,7 @@ public interface EnhanceBaseMapper<T, V> extends BaseMapper<T> {
      * @return vo的类
      */
     default Class<V> currentVoClass() {
-        return (Class<V>) ReflectionKit.getSuperClassGenericType(this.getClass(), EnhanceBaseMapper.class, 2);
+        return (Class<V>) ReflectionKit.getSuperClassGenericType(this.getClass(), EnhanceBaseMapper.class, 1);
     }
 
 
