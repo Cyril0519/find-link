@@ -23,7 +23,6 @@ public class CustomUserAuthenticationConverter extends DefaultUserAuthentication
         LinkedHashMap<String,Object> response = new LinkedHashMap<>();
         String name = authentication.getName();
         response.put("username", name);
-
         Object principal = authentication.getPrincipal();
         UserJwt userJwt = null;
         if(principal instanceof UserJwt){
@@ -33,7 +32,7 @@ public class CustomUserAuthenticationConverter extends DefaultUserAuthentication
             UserDetails userDetails = userDetailsService.loadUserByUsername(name);
             userJwt = (UserJwt) userDetails;
         }
-        response.put("id", userJwt.getUid());
+        response.put("uid", userJwt.getUid());
         if (authentication.getAuthorities() != null && !authentication.getAuthorities().isEmpty()) {
             response.put("authorities", AuthorityUtils.authorityListToSet(authentication.getAuthorities()));
         }
