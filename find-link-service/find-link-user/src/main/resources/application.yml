@@ -1,19 +1,29 @@
 server:
   port: 9202
+
 spring:
   application:
     name: user
+  main:
+    allow-bean-definition-overriding: true
+
+---
+spring:
+  cloud:
+    nacos:
+      discovery:
+        group: DEFAULT_GROUP
+        server-addr: 43.143.254.110
+        username: nacos
+        password: nacos
+
+---
+spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://43.143.254.110:33106/find_link_user?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=UTC
     username: root
     password: Abc123654
-  main:
-    allow-bean-definition-overriding: true
-  cloud:
-    nacos:
-      server-addr: 43.143.254.110
-
 
 dubbo:
   scan:
@@ -27,4 +37,3 @@ dubbo:
     address: spring-cloud://43.143.254.110:8848
   cloud:
     subscribed-services: ""
-
