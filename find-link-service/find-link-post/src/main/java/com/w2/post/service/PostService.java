@@ -1,13 +1,12 @@
 package com.w2.post.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.w2.post.pojo.PageQuery;
 import com.w2.post.pojo.Post;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.w2.post.pojo.PostContent;
+import com.w2.post.pojo.bo.PostBo;
 import com.w2.post.pojo.vo.PostVo;
-
-import java.util.List;
 
 /**
 * @author wuxingyu
@@ -17,4 +16,7 @@ import java.util.List;
 public interface PostService extends IService<Post> {
 
     IPage<PostVo> selectPage(PageQuery page);
+
+    void addOne(PostBo postBo, PostContent content);
+
 }

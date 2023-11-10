@@ -51,13 +51,13 @@ public class Post implements Serializable {
     private BigDecimal longitude;
 
     private BigDecimal latitude;
-
+    // 大体内容
     private String abstractsContent;
-
+    // 点赞数
     private Integer likes = 0;
-
+    // 评论数
     private Integer comments = 0;
-
+    // 收藏数
     private Integer collections = 0;
 
     private static final long serialVersionUID = 1L;

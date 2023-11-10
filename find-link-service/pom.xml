@@ -35,7 +35,6 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
-
         <!-- mysql -->
         <dependency>
             <groupId>com.w2</groupId>

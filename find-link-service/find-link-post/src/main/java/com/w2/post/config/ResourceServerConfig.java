@@ -79,4 +79,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .anyRequest().
                 authenticated();    //其他地址需要认证授权
     }
+
+    @Bean
+    public TokenDecode tokenDecode() {
+        return new TokenDecode();
+    }
 }

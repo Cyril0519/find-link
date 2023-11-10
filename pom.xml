@@ -14,6 +14,7 @@
         <module>find-link-remote</module>
         <module>find-link-gateway</module>
         <module>find-link-service</module>
+        <module>find-link-canal</module>
     </modules>
     <properties>
         <project.version>0.0.1-SNAPSHOT</project.version>
